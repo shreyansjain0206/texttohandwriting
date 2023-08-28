@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script>
+      function readImage() {
+        //check if file is an image
+        if (
+          !document
+            .getElementById("uploaded-image")
+            .files[0].type.match(/image\/*/)
+        ) {
+          alert("Please select a valid image file");
+          return;
+        }
+
+        //get image file
+        let imageFile = document.getElementById("uploaded-image").files[0];
+
+        //initialize a new FileReader object
+        let reader = new FileReader();
+
+        //onload
+        reader.onload = function (e) {
+          //get the image source
+          let source = e.target.result;
+
+          //initialize a new Image object
+          let img = new Image();
+
+          //onload
+          img.onload = function () {
+            //get canvas context
+            let canvas = document.createElement("canvas");
+            let ctx = canvas.getContext("2d");
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+
+            //get text from the image
+            let text = ctx.getImageData(0, 0, img.width, img.height).data;
+
+            //display the text
+            document.getElementById("image-text").innerHTML = text;
+          };
+
+          //set image source
+          img.src = source;
+        };
+
+        //read image
+        reader.readAsDataURL(imageFile);
+      }
+    </script>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, shrink-to-fit=no"
+    />
+    <title>Image to Text Converter</title>
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,300italic,400italic,700italic&amp;display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=ABeeZee&amp;display=swap"
+    />
+    <link rel="stylesheet" href="assets/css/Team-Horizontal-icons.css" />
+    <link rel="stylesheet" href="assets/css/Team-Horizontal-images.css" />
+  </head>
+
+  <body
+    style="
+      font-size: 25px;
+      font-family: ABeeZee, sans-serif;
+      box-shadow: inset 0px 0px var(--bs-pink);
+      transform: perspective(400px);
+    "
+  >
+    <input
+      type="file"
+      style="
+        padding-bottom: 0px;
+        margin-bottom: 84px;
+        margin-top: 257px;
+        padding-left: 466px;
+      "
+      name="ChooseFilo"
+    /><input
+      class="btn btn-primary"
+      type="submit"
+      style="
+        padding-right: 13px;
+        padding-left: 10px;
+        margin-right: 0px;
+        padding-bottom: 11px;
+        margin-left: -470px;
+        margin-top: 172px;
+      "
+    />
+    <script src="assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="assets/js/stylish-portfolio.js"></script>
+  </body>
+</html>
